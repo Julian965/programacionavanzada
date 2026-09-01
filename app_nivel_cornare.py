@@ -695,4 +695,3 @@ else:
     st.info(
         "Ajusta los parámetros en el sidebar y presiona **Consultar**."
     )
-```
