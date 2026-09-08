@@ -10,8 +10,7 @@ import requests
 import pandas as pd
 import numpy as np
 import streamlit as st
-import plotly.graph_objects as go
-import plotly.express as px
+import altair as alt
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -366,26 +365,45 @@ if consultar:
             col3.metric("↔️ Rango", f"{metricas['rango']:.2f}")
             col4.metric("📐 Mediana", f"{metricas['mediana']:.2f}")
 
-            # ── Gráfico principal: nivel + promedio móvil (Plotly) ──
+            # ── Gráfico principal: nivel + promedio móvil (Altair) ──
             st.subheader("📡 Comportamiento del nivel")
 
-            fig_linea = go.Figure()
-            fig_linea.add_trace(go.Scatter(
-                x=df["fecha"], y=df["nivel"], mode="lines",
-                name="Nivel", line=dict(color=VERDE_CLARO, width=2),
-                fill="tozeroy", fillcolor="rgba(52, 209, 163, 0.12)"
-            ))
-            fig_linea.add_trace(go.Scatter(
-                x=df["fecha"], y=df["promedio_movil"], mode="lines",
-                name="Promedio móvil", line=dict(color=VERDE, width=2, dash="dash")
-            ))
-            fig_linea.update_layout(
-                height=420, margin=dict(l=10, r=10, t=10, b=10),
-                plot_bgcolor="white", paper_bgcolor="white",
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-                xaxis_title=None, yaxis_title="Nivel",
+            base = df[["fecha", "nivel", "promedio_movil"]].melt(
+                "fecha", var_name="Serie", value_name="Valor"
             )
-            st.plotly_chart(fig_linea, use_container_width=True)
+            base["Serie"] = base["Serie"].map(
+                {"nivel": "Nivel", "promedio_movil": "Promedio móvil"}
+            )
+
+            area_nivel = (
+                alt.Chart(df)
+                .mark_area(color=VERDE_CLARO, opacity=0.15)
+                .encode(x="fecha:T", y="nivel:Q")
+            )
+            lineas = (
+                alt.Chart(base)
+                .mark_line(strokeWidth=2.4)
+                .encode(
+                    x=alt.X("fecha:T", title=None),
+                    y=alt.Y("Valor:Q", title="Nivel"),
+                    color=alt.Color(
+                        "Serie:N",
+                        scale=alt.Scale(
+                            domain=["Nivel", "Promedio móvil"],
+                            range=[VERDE_CLARO, VERDE],
+                        ),
+                        legend=alt.Legend(orient="top", title=None),
+                    ),
+                    strokeDash=alt.condition(
+                        "datum.Serie == 'Promedio móvil'",
+                        alt.value([6, 4]),
+                        alt.value([1, 0]),
+                    ),
+                    tooltip=["fecha:T", "Serie:N", alt.Tooltip("Valor:Q", format=".2f")],
+                )
+            )
+            fig_linea = (area_nivel + lineas).properties(height=420).interactive()
+            st.altair_chart(fig_linea, use_container_width=True)
 
             col1, col2, col3 = st.columns(3)
             col1.metric("⚡ Mayor aumento", f"{metricas['mayor_subida']:.2f}")
@@ -432,59 +450,70 @@ if consultar:
                     "Movimiento": ["Subidas", "Bajadas", "Estables"],
                     "Cantidad": [metricas["subidas"], metricas["bajadas"], metricas["estables"]],
                 })
-                fig_barras = px.bar(
-                    cambios_df, x="Movimiento", y="Cantidad",
-                    color="Movimiento",
-                    color_discrete_map={"Subidas": VERDE_CLARO, "Bajadas": ROJO, "Estables": "#94a3b8"},
-                    title="Distribución de cambios entre lecturas",
+                fig_barras = (
+                    alt.Chart(cambios_df)
+                    .mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6)
+                    .encode(
+                        x=alt.X("Movimiento:N", title=None, sort=None),
+                        y=alt.Y("Cantidad:Q"),
+                        color=alt.Color(
+                            "Movimiento:N",
+                            scale=alt.Scale(
+                                domain=["Subidas", "Bajadas", "Estables"],
+                                range=[VERDE_CLARO, ROJO, "#94a3b8"],
+                            ),
+                            legend=None,
+                        ),
+                        tooltip=["Movimiento:N", "Cantidad:Q"],
+                    )
+                    .properties(height=340, title="Distribución de cambios entre lecturas")
                 )
-                fig_barras.update_layout(
-                    height=340, showlegend=False, margin=dict(l=10, r=10, t=50, b=10),
-                    plot_bgcolor="white", paper_bgcolor="white",
-                )
-                st.plotly_chart(fig_barras, use_container_width=True)
+                st.altair_chart(fig_barras, use_container_width=True)
 
             with gcol2:
-                fig_hist = px.histogram(
-                    df, x="nivel", nbins=25,
-                    title="Distribución de niveles registrados",
-                    color_discrete_sequence=[VERDE],
+                fig_hist = (
+                    alt.Chart(df)
+                    .mark_bar(color=VERDE)
+                    .encode(
+                        x=alt.X("nivel:Q", bin=alt.Bin(maxbins=25), title="Nivel"),
+                        y=alt.Y("count():Q", title="Frecuencia"),
+                        tooltip=[alt.Tooltip("count():Q", title="Frecuencia")],
+                    )
+                    .properties(height=340, title="Distribución de niveles registrados")
                 )
-                fig_hist.update_layout(
-                    height=340, margin=dict(l=10, r=10, t=50, b=10),
-                    plot_bgcolor="white", paper_bgcolor="white",
-                    xaxis_title="Nivel", yaxis_title="Frecuencia",
-                )
-                st.plotly_chart(fig_hist, use_container_width=True)
+                st.altair_chart(fig_hist, use_container_width=True)
 
             gcol3, gcol4 = st.columns(2)
 
             with gcol3:
-                fig_box = go.Figure()
-                fig_box.add_trace(go.Box(
-                    y=df["nivel"], name="Nivel", marker_color=VERDE_CLARO,
-                    boxmean=True
-                ))
-                fig_box.update_layout(
-                    height=340, title="Caja y bigotes — outliers de nivel",
-                    margin=dict(l=10, r=10, t=50, b=10),
-                    plot_bgcolor="white", paper_bgcolor="white",
+                fig_box = (
+                    alt.Chart(df)
+                    .mark_boxplot(color=VERDE_CLARO, size=60, outliers={"color": ROJO})
+                    .encode(y=alt.Y("nivel:Q", title="Nivel"))
+                    .properties(height=340, title="Caja y bigotes — outliers de nivel")
                 )
-                st.plotly_chart(fig_box, use_container_width=True)
+                st.altair_chart(fig_box, use_container_width=True)
 
             with gcol4:
-                fig_var = go.Figure()
-                colores_var = [VERDE_CLARO if v >= 0 else ROJO for v in df["variacion"].fillna(0)]
-                fig_var.add_trace(go.Bar(
-                    x=df["fecha"], y=df["variacion"], marker_color=colores_var, name="Variación"
-                ))
-                fig_var.update_layout(
-                    height=340, title="Variación entre lecturas consecutivas",
-                    margin=dict(l=10, r=10, t=50, b=10),
-                    plot_bgcolor="white", paper_bgcolor="white",
-                    xaxis_title=None, yaxis_title="Δ Nivel",
+                df_var = df.copy()
+                df_var["variacion"] = df_var["variacion"].fillna(0)
+                df_var["signo"] = np.where(df_var["variacion"] >= 0, "Sube", "Baja")
+                fig_var = (
+                    alt.Chart(df_var)
+                    .mark_bar()
+                    .encode(
+                        x=alt.X("fecha:T", title=None),
+                        y=alt.Y("variacion:Q", title="Δ Nivel"),
+                        color=alt.Color(
+                            "signo:N",
+                            scale=alt.Scale(domain=["Sube", "Baja"], range=[VERDE_CLARO, ROJO]),
+                            legend=alt.Legend(orient="top", title=None),
+                        ),
+                        tooltip=["fecha:T", alt.Tooltip("variacion:Q", format="+.2f")],
+                    )
+                    .properties(height=340, title="Variación entre lecturas consecutivas")
                 )
-                st.plotly_chart(fig_var, use_container_width=True)
+                st.altair_chart(fig_var, use_container_width=True)
 
             # ── Calidad de datos ──
             st.subheader("🎯 Indicadores de calidad")
