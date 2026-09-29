@@ -1,4 +1,4 @@
-"""Catálogo de aplicaciones de Inteligencia Artificial (Streamlit).
+"""Portafolio de aplicaciones (Streamlit).
 
 Todo vive en este único archivo.
 Para añadir una app nueva: agrega un diccionario a la lista APPS.
@@ -12,7 +12,7 @@ from collections import Counter
 import streamlit as st
 
 # ─────────────────────────── Configuración ───────────────────────────
-st.set_page_config(page_title="Catálogo de IA", page_icon="✨", layout="wide")
+st.set_page_config(page_title="Portafolio", page_icon="✨", layout="wide")
 
 SITE_URL = "https://sites.google.com/view/aplicacionesdeia/inicio"
 # Si escribes tu usuario de GitHub, los repositorios se vuelven enlaces.
@@ -21,10 +21,10 @@ GITHUB_USER = ""
 
 # Cada categoría: color de acento
 CATEGORIES = {
-    "Fundamentos": "#5b5bd6",
-    "Datos": "#12a150",
-    "Modelos predictivos": "#e5701a",
-    "Sensores e IoT": "#e0395f",
+    "Fundamentos": "#0891b2",
+    "Datos": "#d946ef",
+    "Modelos predictivos": "#f43f5e",
+    "Sensores e IoT": "#84cc16",
     "Voz y audio": "#0a7cff",
     "Visión": "#a347e6",
     "Lenguaje": "#1797b5",
@@ -127,7 +127,8 @@ APPS = [
 CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap');
-:root{--ink:#16161d;--mute:#5f6070;--soft:#8a8b99;--line:#e7e5df;--paper:#faf9f6;--card:#ffffff;}
+:root{--ink:#16161d;--mute:#5f6070;--soft:#8a8b99;--line:#e7e5df;--paper:#f6f7fb;--card:#ffffff;}
+.stApp{background:radial-gradient(900px 400px at 100% 0%,#fce7f366,transparent 60%),radial-gradient(800px 400px at 0% 30%,#cffafe66,transparent 60%),var(--paper)!important;}
 html,body,.stApp{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;}
 .stApp{background:var(--paper);color:var(--ink);}
 #MainMenu,footer{visibility:hidden;}
@@ -137,29 +138,29 @@ header[data-testid="stHeader"]{background:transparent;}
 
 /* ---------- Hero ---------- */
 .hero{position:relative;overflow:hidden;border-radius:28px;padding:clamp(2rem,5vw,3.6rem);
- background:#101018;color:#fff;isolation:isolate;margin-bottom:2.2rem;}
+ background:#0b1026;color:#fff;isolation:isolate;margin-bottom:2.2rem;}
 .hero::before{content:"";position:absolute;inset:0;z-index:-2;
- background:radial-gradient(600px 320px at 85% 10%,#5b5bd6aa,transparent 65%),
-            radial-gradient(520px 300px at 70% 110%,#e5701a88,transparent 65%),
-            radial-gradient(420px 260px at 5% 120%,#12a15066,transparent 70%);}
+ background:radial-gradient(600px 320px at 85% 10%,#06b6d4aa,transparent 65%),
+            radial-gradient(520px 300px at 70% 110%,#ec489988,transparent 65%),
+            radial-gradient(420px 260px at 5% 120%,#a3e63566,transparent 70%);}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.35;
  background-image:linear-gradient(#ffffff14 1px,transparent 1px),linear-gradient(90deg,#ffffff14 1px,transparent 1px);
  background-size:36px 36px;mask-image:linear-gradient(90deg,transparent,#000 60%);
  -webkit-mask-image:linear-gradient(90deg,transparent,#000 60%);}
 .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;
- letter-spacing:.08em;text-transform:uppercase;color:#c9c9ff!important;background:#ffffff12;border:1px solid #ffffff22;
+ letter-spacing:.08em;text-transform:uppercase;color:#a5f3fc!important;background:#ffffff12;border:1px solid #ffffff22;
  padding:.35rem .75rem;border-radius:999px;margin-bottom:1.3rem;}
 .eyebrow i{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 4px #4ade8033;}
 .hero h1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.3rem,6vw,4.4rem);line-height:1;
  font-weight:800;letter-spacing:-.035em;margin:0 0 1.1rem;color:#fff!important;max-width:760px;padding:0;}
-.hero h1 em{font-style:normal;background:linear-gradient(90deg,#a5a5ff,#ffb27a);-webkit-background-clip:text;
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,#22d3ee,#f472b6 55%,#facc15);-webkit-background-clip:text;
  background-clip:text;color:transparent!important;}
 .hero p.lead{font-size:1.1rem;line-height:1.6;color:#c4c4d0!important;max-width:560px;margin:0 0 1.8rem;}
 .hero-actions{display:flex;gap:.7rem;flex-wrap:wrap;}
 .btn{display:inline-flex;align-items:center;gap:.45rem;padding:.7rem 1.2rem;border-radius:999px;font-weight:600;
  font-size:.92rem;text-decoration:none!important;transition:transform .2s ease,background .2s ease,box-shadow .2s ease;}
-.btn:focus-visible{outline:3px solid #8b8bff;outline-offset:2px;}
-.btn.light{background:#fff;color:#101018!important;}
+.btn:focus-visible{outline:3px solid #22d3ee;outline-offset:2px;}
+.btn.light{background:#fff;color:#0b1026!important;}
 .btn.light:hover{transform:translateY(-1px);box-shadow:0 8px 24px #00000055;}
 .btn.glass{background:#ffffff14;color:#fff!important;border:1px solid #ffffff2e;}
 .btn.glass:hover{background:#ffffff24;}
@@ -178,12 +179,12 @@ header[data-testid="stHeader"]{background:transparent;}
 /* Buscador */
 .stTextInput input{background:#fff!important;color:var(--ink)!important;border-radius:14px!important;
  border:1px solid var(--line)!important;padding:.8rem 1rem!important;font-size:1rem!important;}
-.stTextInput input:focus{border-color:#5b5bd6!important;box-shadow:0 0 0 3px #5b5bd622!important;}
+.stTextInput input:focus{border-color:#06b6d4!important;box-shadow:0 0 0 3px #06b6d422!important;}
 .stTextInput input::placeholder{color:var(--soft)!important;}
 
 /* ---------- Tarjetas ---------- */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;margin-top:1.2rem;}
-.card{--c:#5b5bd6;position:relative;background:var(--card);border:1px solid var(--line);border-radius:22px;
+.card{--c:#0891b2;position:relative;background:var(--card);border:1px solid var(--line);border-radius:22px;
  padding:1.35rem 1.35rem 1.2rem;display:flex;flex-direction:column;gap:.75rem;overflow:hidden;
  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
 .card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c);opacity:.9;}
@@ -249,7 +250,7 @@ def session_number(kind):
 
 
 def render_card(app):
-    color = CATEGORIES.get(app["category"], "#5b5bd6")
+    color = CATEGORIES.get(app["category"], "#0891b2")
     number = session_number(app["kind"])
     num_html = (f'<div class="num"><b>{number}</b><small>Sesión</small></div>' if number
                 else f'<div class="num"><b>✦</b><small>{esc(app["kind"])}</small></div>')
@@ -297,8 +298,8 @@ n_techs = len({t for a in APPS for t in a.get("technologies", [])})
 
 st.markdown(
     '<section class="hero">'
-    '<span class="eyebrow"><i></i>Laboratorio interactivo</span>'
-    '<h1>Inteligencia artificial <em>que puedes probar.</em></h1>'
+    '<span class="eyebrow"><i></i>Portafolio interactivo</span>'
+    '<h1>Portafolio <em>de aplicaciones.</em></h1>'
     '<p class="lead">Aplicaciones para aprender haciendo: del gradiente y la limpieza de datos '
     'a la regresión, las series de tiempo, los sensores IoT y la clasificación. Abre cualquiera y experimenta.</p>'
     '<div class="hero-actions">'
@@ -322,7 +323,7 @@ category = st.pills("Tema", options, default="Todas", label_visibility="collapse
 visible = [a for a in APPS if matches(a, query, category)]
 
 st.markdown(
-    f'<div class="section-head"><h2>{"Catálogo" if category == "Todas" else esc(category)}</h2>'
+    f'<div class="section-head"><h2>{"Aplicaciones" if category == "Todas" else esc(category)}</h2>'
     f'<span>{len(visible)} de {len(APPS)} aplicaciones</span></div>',
     unsafe_allow_html=True,
 )
@@ -337,7 +338,7 @@ else:
 
 # ─────────────────────────── Información adicional ───────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
-with st.expander("¿Qué temas y técnicas aparecen en este catálogo?"):
+with st.expander("¿Qué temas y técnicas aparecen en este portafolio?"):
     left, right = st.columns(2)
     with left:
         st.markdown("**Temas**")
@@ -348,7 +349,7 @@ with st.expander("¿Qué temas y técnicas aparecen en este catálogo?"):
         st.markdown(", ".join(sorted({t for a in APPS for t in a.get("technologies", [])})))
 
 st.markdown(
-    '<div class="foot"><span>Catálogo de aplicaciones de IA · hecho con Streamlit</span>'
+    '<div class="foot"><span>Portafolio de aplicaciones · hecho con Streamlit</span>'
     f'<span>Más material en <a href="{esc(SITE_URL)}" target="_blank" rel="noopener">el sitio del curso</a></span></div>',
     unsafe_allow_html=True,
 )
