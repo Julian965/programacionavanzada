@@ -90,7 +90,7 @@ APPS = [
     dict(title="Vectores y matrices", category="Fundamentos", kind="Sesión 2", icon="vectores",
          description="Representa frutas como vectores (peso, diámetro y dulzor) y mide qué tan parecidas son "
                      "calculando la distancia entre ellas, incluida la nueva pera.",
-         url="",  # ← pega aquí el enlace de tu app desplegada en Streamlit
+         url="https://programacionavanzada-dczr2vxq3fc2qsj9ctiqrd.streamlit.app/",  
          links=[("Cuaderno Colab", "_libro",
                  "https://colab.research.google.com/drive/1XGP-LBMkz6Q16LtpxNvG2QGnI_Vtm2cA?usp=sharing"),
                 ("Script", "_codigo",
@@ -121,7 +121,7 @@ APPS = [
          description="Analiza datos que cambian con el tiempo y observa sus patrones.",
          url="https://programacionavanzada-bhhg99zpgsqzq8sdigrhm9.streamlit.app/",
          repository="Time_Series_Intelligence", technologies=["Series de tiempo"]),
-    dict(title="Pronóstico de calidad del aire", category="Modelos predictivos", kind="Aplicación", icon="aire",
+    dict(title="Pronóstico de calidad del aire", category="Modelos predictivos", kind="Sesión 9", icon="aire",
          description="Consulta una predicción de la calidad del aire a partir de datos.",
          url="https://programacionavanzada-ahdwqw8ncw4w8lcncmadge.streamlit.app/",
          repository="pronosticador-de-calidad-de-aire", technologies=["Predicción"]),
