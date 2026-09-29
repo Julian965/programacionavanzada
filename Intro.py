@@ -3,6 +3,8 @@
 Todo vive en este único archivo.
 Para añadir una app nueva: agrega un diccionario a la lista APPS.
   - icon: una clave del diccionario ICONS (si no existe, se usa un icono genérico).
+  - url: enlace de la app en Streamlit (vacío = se muestra "App en preparación").
+  - links (opcional): lista de (texto, icono, url) para material extra como Colab o Drive.
   - kind: "Sesión N" muestra el número grande en la tarjeta; cualquier otro texto se muestra tal cual.
 """
 import html
@@ -33,6 +35,9 @@ CATEGORIES = {
 # ─────────────────────────── Iconos (SVG en línea) ───────────────────────────
 # Trazos de 24×24; se dibujan con el color de la categoría.
 ICONS = {
+    # Vectores y matrices: corchetes de matriz con un vector
+    "vectores": '<path d="M7 4H4v16h3"/><path d="M17 4h3v16h-3"/>'
+                '<path d="M8 16l7-7"/><path d="M11 9h4v4"/><circle cx="8" cy="16" r="1.2"/>',
     # Gradiente: ascenso hacia el máximo
     "gradiente": '<path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/>',
     # Anomalías: nube de puntos con un punto aislado resaltado
@@ -67,6 +72,8 @@ ICONS = {
     "chispa": '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17v4"/><path d="M17 19h4"/>',
     # Iconos de interfaz
     "_flecha": '<path d="M7 17L17 7"/><path d="M8 7h9v9"/>',
+    "_libro": '<path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/>',
+    "_codigo": '<path d="M8 8l-4 4 4 4"/><path d="M16 8l4 4-4 4"/>',
     "_repo": '<path d="M4 19.5V5a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2.5z"/><path d="M6 21h14v-4"/>',
 }
 
@@ -80,46 +87,55 @@ def svg(name, size=24, width=1.8):
 
 # ─────────────────────────── Datos ───────────────────────────
 APPS = [
+    dict(title="Vectores y matrices", category="Fundamentos", kind="Sesión 2", icon="vectores",
+         description="Representa frutas como vectores (peso, diámetro y dulzor) y mide qué tan parecidas son "
+                     "calculando la distancia entre ellas, incluida la nueva pera.",
+         url="",  # ← pega aquí el enlace de tu app desplegada en Streamlit
+         links=[("Cuaderno Colab", "_libro",
+                 "https://colab.research.google.com/drive/1XGP-LBMkz6Q16LtpxNvG2QGnI_Vtm2cA?usp=sharing"),
+                ("Script", "_codigo",
+                 "https://drive.google.com/drive/folders/1eC54BiY6Ep9zPyfNHG7U_slliOqrE5UX?usp=sharing")],
+         technologies=["Vectores", "Matrices", "Distancia euclidiana"]),
     dict(title="Cálculo aplicado: el gradiente", category="Fundamentos", kind="Sesión 3", icon="gradiente",
          description="Explora cómo el gradiente indica hacia dónde mejora una función.",
-         url="https://calculo-aplicado-gradiente.streamlit.app",
+         url="https://programacionavanzada-hewb3zcjypknxuvv76udcy.streamlit.app/",
          repository="Calculo-aplicado-gradiente", technologies=["Gradiente"]),
     dict(title="Detector de anomalías", category="Fundamentos", kind="Sesión 4", icon="anomalias",
          description="Practica lógica, eficiencia (Big-O) y vectorización para encontrar datos extraños.",
-         url="https://detector-anomalias-pujphzyih8brne8nhox5zv.streamlit.app",
+         url="https://programacionavanzada-b5tejzdld4dwwlcph4w5vb.streamlit.app/",
          repository="detector-anomalias", technologies=["Big-O", "Vectorización"]),
     dict(title="Preparación de datos", category="Datos", kind="Sesión 5", icon="filtro",
          description="Aprende a dejar los datos limpios y listos antes de analizarlos.",
-         url="https://preparaci-n-de-datos-yupvhtm8dhjnmfslfsmt3u.streamlit.app",
+         url="https://programacionavanzada-xyylk8gxv7bxnxw9fq4yu5.streamlit.app/",
          repository="Preparaci-n-de-datos", technologies=["Limpieza de datos"]),
     dict(title="Análisis y preparación con MARCO", category="Datos", kind="Sesión 6", icon="analisis",
          description="Una aplicación para revisar y preparar tus datos paso a paso.",
-         url="https://preparacion.streamlit.app",
+         url="https://programacionavanzada-sqpxcfzjecm97uprxzaoyp.streamlit.app/",
          repository="aplicacion-de-analisis-y-preparacion-de-datos-con-MARCO",
          technologies=["MARCO"]),
     dict(title="Regresión lineal", category="Modelos predictivos", kind="Sesión 7", icon="regresion",
          description="Mira cómo una línea puede describir la relación entre dos variables.",
-         url="https://regresion-lineal-py.streamlit.app",
+         url="https://programacionavanzada-aog2zfw8htkkgc22cm9jqm.streamlit.app/",
          repository="regresion-lineal", technologies=["Regresión lineal"]),
     dict(title="Series de tiempo", category="Modelos predictivos", kind="Sesión 8", icon="series",
          description="Analiza datos que cambian con el tiempo y observa sus patrones.",
-         url="https://time-series-intelligence.streamlit.app",
+         url="https://programacionavanzada-bhhg99zpgsqzq8sdigrhm9.streamlit.app/",
          repository="Time_Series_Intelligence", technologies=["Series de tiempo"]),
     dict(title="Pronóstico de calidad del aire", category="Modelos predictivos", kind="Aplicación", icon="aire",
          description="Consulta una predicción de la calidad del aire a partir de datos.",
-         url="https://pronosticador-de-calidad-de-aire.streamlit.app",
+         url="https://programacionavanzada-ahdwqw8ncw4w8lcncmadge.streamlit.app/",
          repository="pronosticador-de-calidad-de-aire", technologies=["Predicción"]),
     dict(title="Sensor de humedad IoT", category="Sensores e IoT", kind="Sesión 10", icon="humedad",
          description="Sigue cómo un dispositivo captura datos de humedad y cómo se procesan.",
-         url="https://dispositivo-iot-humedad.streamlit.app",
+         url="https://programacionavanzada-6yyflht6yzkrbpcwakknbz.streamlit.app/",
          repository="streamlit-dispositivo-iot-humedad", technologies=["IoT", "Captura de datos"]),
     dict(title="¿Llueve o no llueve?", category="Modelos predictivos", kind="Sesión 11", icon="lluvia",
          description="Pasa de predecir un número a tomar una decisión de sí o no.",
-         url="https://decisiones-binarias-llueve-o-no-j6ardkm39sqb4dvdqvtqf3.streamlit.app",
+         url="https://programacionavanzada-7b3on7qphjk8ahjruujou4.streamlit.app/",
          repository="decisiones-binarias-llueve-o-no", technologies=["Regresión logística"]),
     dict(title="De la tierra al algoritmo", category="Modelos predictivos", kind="Sesión 12", icon="brote",
          description="Clasifica la fertilidad de un suelo comparándolo con casos parecidos.",
-         url="https://de-la-tierra-al-algoritmo.streamlit.app",
+         url="https://programacionavanzada-cnbxjqeli5dekfg2qrg8yq.streamlit.app/",
          repository="De-la-Tierra-al-Algoritmo", technologies=["KNN", "Clasificación"]),
 ]
 
@@ -216,6 +232,13 @@ header[data-testid="stHeader"]{background:transparent;}
  transition:background .2s ease,gap .2s ease;}
 .open:hover{background:var(--c);gap:.6rem;}
 .open:focus-visible{outline:3px solid var(--c);outline-offset:2px;}
+.links{display:flex;flex-wrap:wrap;gap:.4rem;}
+.links a{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .65rem;border-radius:999px;font-size:.78rem;
+ font-weight:600;text-decoration:none!important;color:var(--c)!important;border:1px solid color-mix(in srgb,var(--c) 30%,#fff);
+ background:color-mix(in srgb,var(--c) 7%,#fff);transition:background .2s ease;}
+.links a:hover{background:color-mix(in srgb,var(--c) 16%,#fff);}
+.links a svg{flex:none;}
+.open.off{background:#e9eaf0;color:var(--soft)!important;cursor:default;}
 .repo{display:inline-flex;align-items:center;gap:.35rem;font-size:.76rem;color:var(--soft)!important;
  max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:none!important;}
 .repo span{overflow:hidden;text-overflow:ellipsis;color:inherit!important;}
@@ -267,6 +290,17 @@ def render_card(app):
         else:
             repo_html = f'<span class="repo" title="{esc(repo)}">{inner}</span>'
 
+    links = "".join(
+        f'<a href="{esc(link)}" target="_blank" rel="noopener">{svg(icon, 14, 2)}{esc(text)}</a>'
+        for text, icon, link in app.get("links", []))
+    links_html = f'<div class="links">{links}</div>' if links else ""
+
+    if app.get("url"):
+        open_html = (f'<a class="open" href="{esc(app["url"])}" target="_blank" rel="noopener">'
+                     f'Abrir aplicación {svg("_flecha", 15, 2.2)}</a>')
+    else:
+        open_html = '<span class="open off">App en preparación</span>'
+
     return (
         f'<article class="card" style="--c:{color}">'
         f'<div class="card-top"><div class="icon">{svg(app.get("icon"), 28)}</div>{num_html}</div>'
@@ -274,8 +308,8 @@ def render_card(app):
         f'<h3>{esc(app["title"])}</h3>'
         f'<p>{esc(app["description"])}</p>'
         f'<div class="tags">{tags}</div>'
-        f'<div class="actions"><a class="open" href="{esc(app["url"])}" target="_blank" rel="noopener">'
-        f'Abrir aplicación {svg("_flecha", 15, 2.2)}</a>{repo_html}</div>'
+        f'{links_html}'
+        f'<div class="actions">{open_html}{repo_html}</div>'
         '</article>'
     )
 
@@ -301,8 +335,8 @@ st.markdown(
     '<section class="hero">'
     '<span class="eyebrow"><i></i>Portafolio interactivo</span>'
     '<h1><span class="brand">Portafolio</span> <em>de aplicaciones.</em></h1>'
-    '<p class="lead">Aplicaciones para aprender haciendo: del gradiente y la limpieza de datos '
-    'a la regresión, las series de tiempo, los sensores IoT y la clasificación. Abre cualquiera y experimenta.</p>'
+    '<p class="lead">Aplicaciones para aprender haciendo: de los vectores y el gradiente '
+    'a la limpieza de datos, la regresión, las series de tiempo, los sensores IoT y la clasificación. Abre cualquiera y experimenta.</p>'
     '<div class="hero-actions">'
     f'<a class="btn light" href="#catalogo">Ver aplicaciones</a>'
     f'<a class="btn glass" href="{esc(SITE_URL)}" target="_blank" rel="noopener">'
@@ -315,7 +349,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-query = st.text_input("Buscar", placeholder="🔍  Busca por nombre, tema o técnica (por ejemplo: KNN, datos, humedad)",
+query = st.text_input("Buscar", placeholder="🔍  Busca por nombre, tema o técnica (por ejemplo: vectores, KNN, humedad)",
                       label_visibility="collapsed")
 options = ["Todas"] + [c for c in CATEGORIES if counts.get(c)]
 category = st.pills("Tema", options, default="Todas", label_visibility="collapsed",
