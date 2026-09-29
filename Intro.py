@@ -155,6 +155,7 @@ header[data-testid="stHeader"]{background:transparent;}
  font-weight:800;letter-spacing:-.035em;margin:0 0 1.1rem;color:#fff!important;max-width:760px;padding:0;}
 .hero h1 em{font-style:normal;background:linear-gradient(90deg,#22d3ee,#f472b6 55%,#facc15);-webkit-background-clip:text;
  background-clip:text;color:transparent!important;}
+.stApp .hero h1 .brand,.stApp .hero h1 span.brand{color:#fde047!important;text-shadow:0 0 28px #fde04755;}
 .hero p.lead{font-size:1.1rem;line-height:1.6;color:#c4c4d0!important;max-width:560px;margin:0 0 1.8rem;}
 .hero-actions{display:flex;gap:.7rem;flex-wrap:wrap;}
 .btn{display:inline-flex;align-items:center;gap:.45rem;padding:.7rem 1.2rem;border-radius:999px;font-weight:600;
@@ -299,7 +300,7 @@ n_techs = len({t for a in APPS for t in a.get("technologies", [])})
 st.markdown(
     '<section class="hero">'
     '<span class="eyebrow"><i></i>Portafolio interactivo</span>'
-    '<h1>Portafolio <em>de aplicaciones.</em></h1>'
+    '<h1><span class="brand">Portafolio</span> <em>de aplicaciones.</em></h1>'
     '<p class="lead">Aplicaciones para aprender haciendo: del gradiente y la limpieza de datos '
     'a la regresión, las series de tiempo, los sensores IoT y la clasificación. Abre cualquiera y experimenta.</p>'
     '<div class="hero-actions">'
